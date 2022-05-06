@@ -10,7 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Chatpage />} />
+        {/* <Route path="/" element={<Chatpage />} /> */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<RegisterPage />} />
       </Routes>
