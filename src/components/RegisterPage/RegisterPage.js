@@ -1,9 +1,11 @@
 import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import app from '../../firebase';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { getDatabase, ref, set, child } from "firebase/database";
+import md5 from 'md5';
+
+// import app from '../../firebase';
 
 function RegisterPage() {
   const { register, watch, formState: { errors }, handleSubmit } = useForm();
@@ -15,25 +17,26 @@ function RegisterPage() {
 
   const onSubmit = async (data) => {
     try {
-      app();
+      setLoading(true);
       const auth = getAuth();
       let createdUser = await createUserWithEmailAndPassword(auth, data.email, data.password);
       console.log('createdUser', createdUser);
 
-      // await updateProfile(auth.currentUser, {
-      //   displayName: data.name,
-      
-      //   photoURL: `http://gravatar.com/avatar/${md5(createdUser.user.email)}?d=identicon`,
-      // });
+      await updateProfile(auth.currentUser, {
+        displayName: data.name,
+        photoURL: `http://gravatar.com/avatar/${md5(createdUser.user.email)}?d=identicon`,
+      });
 
-      // //Firebase 데이터베이스에 저장
-      // const database = getDatabase();
-      // set(child(ref(database, "users"), createdUser.user.uid), {
-      //   name: createdUser.user.displayName,
-      //   image: createdUser.user.photoURL,
-      // })
+      //Firebase 데이터베이스에 저장
+      const database = getDatabase();
+      await set(child(ref(database, "users"), createdUser.user.uid), {
+        name: createdUser.user.displayName,
+        image: createdUser.user.photoURL,
+      })
+      setLoading(false);
     } catch (error) {
       setErrorFromSubmit(error.message);
+      setLoading(false);
       setTimeout(() => {
         setErrorFromSubmit("");
       }, 5000);
@@ -92,7 +95,7 @@ function RegisterPage() {
         }
 
         <input type="submit" disabled={loading} />
-      <Link style={{ color: 'gray', textDecoration: 'none' }} to="login">이미 아이디가 있다면... </Link>
+      <Link style={{ color: 'gray', textDecoration: 'none' }} to="/login">이미 아이디가 있다면... </Link>
       </form>
     </div>
   );
