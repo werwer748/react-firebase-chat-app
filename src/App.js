@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import app from './firebase';
 
 import { SET_USER } from './redux/actions/types';
-import { setUser } from './redux/actions/user_action';
+import { setUser, clearUser } from './redux/actions/user_action';
 
 import Chatpage from './components/ChatPage/Chatpage';
 import LoginPage from './components/LoginPage/LoginPage';
@@ -25,7 +25,7 @@ function App(props) {
         dispatch(setUser(user))
       } else {
         navigate('/login');
-        // dispatch(clearUser())
+        dispatch(clearUser())
       }
     });
   }, []);
