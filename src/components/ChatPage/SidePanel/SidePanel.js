@@ -3,6 +3,7 @@ import UserPanel from './UserPanel';
 import Favorited from './Favorited';
 import ChatRooms from './ChatRooms';
 import DirectMessages from './DirectMessages';
+import ChatRoomClass from './ChatRoomClass';
 
 function SidePanel() {
   return (
@@ -18,6 +19,7 @@ function SidePanel() {
         <UserPanel />
         <Favorited />
         <ChatRooms />
+        {/* <ChatRoomClass /> */}
         <DirectMessages />
     </div>
   )
