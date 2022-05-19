@@ -18,16 +18,14 @@ function ChatRooms() {
 
   useEffect(() => {
     AddChatRoomsListeners();
-    // return () => {
-    //   console.log('이거?');
-    //   off(chatRoomRef)
-    // };
+    return () => {
+      off(chatRoomRef)
+    };
   }, []);
 
   useEffect(() => {
     const firstChatRoom = chatRooms[0]
     if (firstLoad && chatRooms.length > 0) {
-        console.log('여기가 안뜸?');
         dispatch(setCurrentChatRoom(firstChatRoom))
         setActiveChatRoomId(firstChatRoom.id);
         setFirstLoad(false);
